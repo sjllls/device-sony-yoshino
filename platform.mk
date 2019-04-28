@@ -72,6 +72,14 @@ PRODUCT_PACKAGES += \
     init.yoshino \
     init.yoshino.pwr \
     ueventd
+    
+# Power
+PRODUCT_PACKAGES += \
+    android.hardware.power@1.2-service.xiaomi_msm8998-libperfmgr
+
+PRODUCT_COPY_FILES += \
+    $(SONY_ROOT)/vendor/etc/powerhint.json:$(TARGET_COPY_OUT_VENDOR)/etc/powerhint.json \
+    $(SONY_ROOT)/vendor/etc/powerhint.xml:$(TARGET_COPY_OUT_VENDOR)/etc/powerhint.xml
 
 # Audio
 PRODUCT_PACKAGES += \
