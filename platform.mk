@@ -15,11 +15,12 @@
 # Platform path
 PLATFORM_COMMON_PATH := device/sony/yoshino
 
-$(call inherit-product, device/sony/common/common.mk)
-$(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
-
 SOMC_PLATFORM := yoshino
 SOMC_KERNEL_VERSION := 4.9
+KERNEL_PATH := kernel/sony/msm-$(SOMC_KERNEL_VERSION)
+
+$(call inherit-product, device/sony/common/common.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
 
 SONY_ROOT := $(PLATFORM_COMMON_PATH)/rootdir
 
@@ -55,6 +56,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(SONY_ROOT)/vendor/firmware/wlan/qca_cld/WCNSS_qcom_cfg.ini:$(TARGET_COPY_OUT_VENDOR)/firmware/wlan/qca_cld/WCNSS_qcom_cfg.ini
 
+# NFC Configuration
+PRODUCT_COPY_FILES += \
+    $(SONY_ROOT)/vendor/etc/libnfc-nci.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-nci.conf
+
 # Touch IDC
 PRODUCT_COPY_FILES += \
     $(SONY_ROOT)/vendor/usr/idc/clearpad.idc:$(TARGET_COPY_OUT_VENDOR)/usr/idc/clearpad.idc
@@ -83,6 +88,7 @@ PRODUCT_COPY_FILES += \
 
 # Audio
 PRODUCT_PACKAGES += \
+    sound_trigger.primary.msm8998 \
     audio.primary.msm8998
 
 # GFX
@@ -184,3 +190,7 @@ PRODUCT_PACKAGES += \
 # HAL3
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.camera.HAL3.enabled=1
+
+# Reduce cost of scrypt for FBE CE decryption
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.crypto.scrypt_params=13:3:1
