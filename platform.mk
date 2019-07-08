@@ -190,7 +190,3 @@ PRODUCT_PACKAGES += \
 # HAL3
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.camera.HAL3.enabled=1
-
-# Reduce cost of scrypt for FBE CE decryption
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.crypto.scrypt_params=13:3:1
