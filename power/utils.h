@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018, The Linux Foundation. All rights reserved.
+ * Copyright (c) 2012-2013,2015-2017, The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -27,74 +27,23 @@
  * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef __POWER_HELPER_H__
-#define __POWER_HELPER_H__
+#include <cutils/properties.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+int sysfs_read(const char *path, char *s, int num_bytes);
+int sysfs_write(const char *path, char *s);
+int get_scaling_governor(char governor[], int size);
+int get_scaling_governor_check_cores(char governor[], int size,int core_num);
+int is_interactive_governor(char*);
+int is_ondemand_governor(char*);
 
-enum stats_type {
-    //Platform Stats
-    RPM_MODE_XO = 0,
-    RPM_MODE_VMIN,
-    RPM_MODE_MAX,
-    XO_VOTERS_START = RPM_MODE_MAX,
-    VOTER_APSS = XO_VOTERS_START,
-    VOTER_MPSS,
-    VOTER_ADSP,
-    VOTER_SLPI,
-    MAX_PLATFORM_STATS,
+int perform_hint_action(int hint_id, int resource_values[], int num_resources);
+void undo_hint_action(int hint_id);
+void undo_initial_hint_action();
+void release_request(int lock_handle);
+void interaction(int duration, int num_args, int opt_list[]);
+int interaction_with_handle(int lock_handle, int duration, int num_args, int opt_list[]);
+int perf_hint_enable(int hint_id, int duration);
+int perf_hint_enable_with_type(int hint_id, int duration, int type);
 
-    //WLAN Stats
-    WLAN_POWER_DEBUG_STATS = 0,
-    MAX_WLAN_STATS,
-};
-
-enum subsystem_type {
-    SUBSYSTEM_WLAN = 0,
-
-    //Don't add any lines after this line
-    SUBSYSTEM_COUNT
-};
-
-enum wlan_sleep_states {
-    WLAN_STATE_ACTIVE = 0,
-    WLAN_STATE_DEEP_SLEEP,
-
-    //Don't add any lines after this line
-    WLAN_STATES_COUNT
-};
-
-enum wlan_power_params {
-    CUMULATIVE_SLEEP_TIME_MS = 0,
-    CUMULATIVE_TOTAL_ON_TIME_MS,
-    DEEP_SLEEP_ENTER_COUNTER,
-    LAST_DEEP_SLEEP_ENTER_TSTAMP_MS,
-
-    //Don't add any lines after this line
-    WLAN_POWER_PARAMS_COUNT
-};
-
-
-#define PLATFORM_SLEEP_MODES_COUNT RPM_MODE_MAX
-
-#define MAX_RPM_PARAMS 2
-#define XO_VOTERS (MAX_PLATFORM_STATS - XO_VOTERS_START)
-#define VMIN_VOTERS 0
-
-struct stat_pair {
-    enum stats_type stat;
-    const char *label;
-    const char **parameters;
-    size_t num_parameters;
-};
-
-int extract_platform_stats(uint64_t *list);
-int extract_wlan_stats(uint64_t *list);
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif //__POWER_HELPER_H__
+long long calc_timespan_us(struct timespec start, struct timespec end);
+int get_soc_id(void);
