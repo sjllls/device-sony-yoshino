@@ -82,10 +82,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.power@1.1-service-qti
 
-PRODUCT_COPY_FILES += \
-    $(SONY_ROOT)/vendor/etc/powerhint.json:$(TARGET_COPY_OUT_VENDOR)/etc/powerhint.json \
-    $(SONY_ROOT)/vendor/etc/powerhint.xml:$(TARGET_COPY_OUT_VENDOR)/etc/powerhint.xml
-
 # Audio
 PRODUCT_PACKAGES += \
     sound_trigger.primary.msm8998 \
