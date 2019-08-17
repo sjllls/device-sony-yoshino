@@ -90,4 +90,7 @@ TARGET_RECOVERY_PIXEL_FORMAT := BGRA_8888
 TARGET_USES_DRM_PP := true
 NUM_FRAMEBUFFER_SURFACE_BUFFERS := 2
 
+# Treble
+BOARD_VNDK_VERSION := current
+
 include device/sony/common/CommonConfig.mk
